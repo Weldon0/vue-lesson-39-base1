@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 // 引入了app.vue
-import App from './11-1.computed特性.vue'
+import App from './12.全选反选案例.vue'
 
 Vue.config.productionTip = false
 
