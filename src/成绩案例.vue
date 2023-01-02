@@ -30,8 +30,8 @@
         <tfoot>
         <tr>
           <td colSpan="5">
-            <span>总分：321</span>
-            <span style="margin-left:50px">平均分：80.25</span>
+            <span>总分：{{ totalScore }}</span>
+            <span style="margin-left:50px">平均分：{{ averageScore }}</span>
           </td>
         </tr>
         </tfoot>
@@ -66,10 +66,28 @@
 import moment from "moment";
 
 // 1、基础渲染
-//   数据渲染到页面里面，如果分数小于60，字体变红色
+// -> 数据渲染到页面里面，如果分数小于60，字体变红色
 
 export default {
   name: 'ScoreCase',
+  computed: {
+    // 计算平均分
+    // 总分数/数据的长度
+    averageScore() {
+      //   怎么计算平均分
+      // 保留两位小数 .toFixed(2)
+      // NaN 调用 toFixed之后会转成字符串('NAN'), 所以计算之前提前加判断
+      const currentAverage = (this.totalScore / this.list.length)
+      return currentAverage ? currentAverage.toFixed(2) : 0
+    },
+    totalScore() {
+      // 数据里面的所有的score属性进行累加，然后返回
+      return this.list.reduce((prev, curr) => {
+        //   把每一项的分数累加之后返回
+        return prev + curr.score
+      }, 0)
+    }
+  },
   data() {
     return {
       list: [
