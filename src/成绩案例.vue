@@ -16,7 +16,7 @@
           <td>{{ index + 1 }}</td>
           <td>{{ item.subject }}</td>
           <td :class="{red: item.score < 60}">{{ item.score }}</td>
-          <td>{{ item.date }}</td>
+          <td>{{ formatDate(item.date) }}</td>
           <td><a href="#" @click.prevent="del(item.id)">删除</a></td>
         </tr>
         </tbody>
@@ -62,23 +62,32 @@
 
 <script>
 
+// 1 、引入第三方包
+import moment from "moment";
+
 // 1、基础渲染
 //   数据渲染到页面里面，如果分数小于60，字体变红色
+
 export default {
   name: 'ScoreCase',
   data() {
     return {
       list: [
-        {id: 15, subject: '语文', score: 89, date: new Date('2022/06/07 10:00:00')},
-        {id: 27, subject: '数学', score: 100, date: new Date('2022/06/07 15:00:00')},
-        {id: 32, subject: '英语', score: 56, date: new Date('2022/06/08 10:00:00')},
-        {id: 41, subject: '物理', score: 76, date: new Date('2022/06/08 10:00:00')}
+        {id: 4, subject: '语文', score: 89, date: new Date('2022/06/07 10:00:00')},
+        {id: 5, subject: '数学', score: 100, date: new Date('2022/06/07 15:00:00')},
+        {id: 6, subject: '英语', score: 56, date: new Date('2022/06/08 10:00:00')},
+        {id: 7, subject: '物理', score: 76, date: new Date('2022/06/08 10:00:00')}
       ],
       subject: '', // 科目
       score: '' // 分数
     }
   },
   methods: {
+    // 定义一个格式化时间的方法
+    formatDate(date) {
+      // 接收一个时间的参数，格式化成我们预期想要的格式
+      return moment(date).format('YYYY-MM-DD hh:mm:ss')
+    },
     del(id) {
       // console.log('删除功能')
       // 点击删除的时候，把当前点击的这条数据删除
@@ -90,7 +99,6 @@ export default {
       // 打印用户输入的内容
       console.log(this.subject)
       console.log(this.score)
-
       // 如果用户没有输入内容，或者输入的分数不合法的情况下，进行弹框提示
       if (!this.subject || this.score < 0 || this.score > 100) {
         alert('输入不合法')
@@ -98,14 +106,15 @@ export default {
       }
 
       //   可以进行数据的添加
+      // at方法可以接受负数，表示从后往前数
       this.list.push({
-        id: this.list.length + 1,
+        id: this.list.at(-1).id + 1,
         subject: this.subject,
         score: this.score,
         date: new Date()
       })
 
-    //   输入框清空
+      //   输入框清空
       this.subject = ''
       this.score = ''
     }

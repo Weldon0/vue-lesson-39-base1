@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 // 引入了app.vue
-import App from './1.作业.vue'
+import App from './成绩案例.vue'
 
 Vue.config.productionTip = false
 
