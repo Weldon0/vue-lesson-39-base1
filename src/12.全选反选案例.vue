@@ -2,17 +2,13 @@
   <div>
     <span>全选:</span>
     <input type="checkbox" v-model="isCheckAll"/>
-    <button>反选</button>
+    <button @click="reverse">反选</button>
     <ul>
       <li v-for="(item, index) in arr" :key="index">
         <input type="checkbox" v-model="item.c"/>
         <span>{{ item.name }}</span>
       </li>
     </ul>
-
-    <!--      <pre>-->
-    <!--        {{ JSON.stringify(arr, null, 2) }}-->
-    <!--      </pre>-->
   </div>
 </template>
 
@@ -25,7 +21,6 @@
  */
 export default {
   computed: {
-
     isCheckAll: {
       get() {
         return this.arr.every(item => item.c === true)
@@ -50,6 +45,15 @@ export default {
     //   // 如果有任意一项的c属性不为true，返回false
     //   return this.arr.every(item => item.c === true)
     // }
+  },
+  methods: {
+    reverse() {
+      // 所有的子项全部反选
+      // 遍历数据，把每一项c属性的值取反
+      this.arr.forEach(item => {
+        item.c = !item.c
+      })
+    }
   },
   data() {
     return {

@@ -90,14 +90,26 @@ export default {
   },
   data() {
     return {
-      list: [
-        {id: 4, subject: '语文', score: 89, date: new Date('2022/06/07 10:00:00')},
-        {id: 5, subject: '数学', score: 100, date: new Date('2022/06/07 15:00:00')},
-        {id: 6, subject: '英语', score: 56, date: new Date('2022/06/08 10:00:00')},
-        {id: 7, subject: '物理', score: 76, date: new Date('2022/06/08 10:00:00')}
-      ],
+      // 如果本地存储没有获取到值，给一个默认的空数组,防止报错
+      list: JSON.parse(localStorage.getItem('sub')) || [],
       subject: '', // 科目
       score: '' // 分数
+    }
+  },
+  watch: {
+    // 监听谁
+    // 数组的监听，劫持了7个可以修改原数组的方法，7个数组方法是可以触发watch侦听器的
+    // 监听的是对象,只有对象的地址发生才可以监听到
+
+    //
+    list: {
+      handler(newValue) {
+        //   数组发生变化以后，会触发handler
+        //   把list存储到本地存储
+        console.log('你好')
+        localStorage.setItem('sub', JSON.stringify(newValue))
+      },
+      deep: true
     }
   },
   methods: {
@@ -125,12 +137,13 @@ export default {
 
       //   可以进行数据的添加
       // at方法可以接受负数，表示从后往前数
-      this.list.push({
-        id: this.list.at(-1).id + 1,
-        subject: this.subject,
-        score: this.score,
-        date: new Date()
-      })
+      // this.list.push({
+      //   id: !this.list.length ? 1 : this.list.at(-1).id + 1,
+      //   subject: this.subject,
+      //   score: this.score,
+      //   date: new Date()
+      // })
+      this.list[0].score = 20
 
       //   输入框清空
       this.subject = ''
